@@ -3,13 +3,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <SpaRoot>..\kashmir.captain.client</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  <DocumentationFile>bin\Debug\net8.0\Kashmir.Captain.Server.xml</DocumentationFile>
-  <NoWarn>1591</NoWarn>
-  <OutputType>WinExe</OutputType>
+    <DocumentationFile>bin\Debug\net8.0\Kashmir.Captain.Server.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Automapper" Version="13.0.1" />

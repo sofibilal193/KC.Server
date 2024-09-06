@@ -7,13 +7,7 @@
 			"path": ".vscode"
 		},
 		{
-			"path": "kashmir.captain.client"
-		},
-		{
 			"path": "Kashmir.Captain.Server"
 		},
-		{
-			"path": "Tests"
-		}
 	]
 }
