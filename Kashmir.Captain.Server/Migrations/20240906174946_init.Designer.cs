@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kashmir.Captain.Server.Migrations
 {
     [DbContext(typeof(KcIdentityDbContext))]
-    [Migration("20240831085126_UpdatedRoles")]
-    partial class UpdatedRoles
+    [Migration("20240906174946_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

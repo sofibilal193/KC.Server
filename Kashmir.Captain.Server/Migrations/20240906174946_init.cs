@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Kashmir.Captain.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdatedRoles : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

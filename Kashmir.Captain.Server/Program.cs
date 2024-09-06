@@ -16,11 +16,9 @@ using System.Net.Mail;
 using Kashmir.Captain.Server.Config;
 using Microsoft.Extensions.Options;
 using System.Net;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Kashmir.Captain.Server.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,8 +98,8 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddScoped<IUrlHelper>(factory =>
 {
-    var actionContext = factory.GetService<IActionContextAccessor>().ActionContext;
-    return new UrlHelper(actionContext);
+	var actionContext = factory.GetService<IActionContextAccessor>().ActionContext;
+	return new UrlHelper(actionContext);
 });
 
 // builder.Services.AddHttpClient<ApiClient>(client =>
@@ -111,7 +109,7 @@ builder.Services.AddScoped<IUrlHelper>(factory =>
 // });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-    builder.Services.AddSingleton<IUrlHelperService, UrlHelperService>();
+builder.Services.AddSingleton<IUrlHelperService, UrlHelperService>();
 
 // Add services to the container.
 builder.Services.AddFluentValidationAutoValidation()
