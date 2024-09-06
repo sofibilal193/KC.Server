@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Build Kashmir.Captain.Server",
+        "type": "shell",
+        "command": "dotnet build",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Run All Tests",
+        "type": "shell",
+        "command": "dotnet test",
+        "group": {
+          "kind": "test",
+          "isDefault": false
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
+  
