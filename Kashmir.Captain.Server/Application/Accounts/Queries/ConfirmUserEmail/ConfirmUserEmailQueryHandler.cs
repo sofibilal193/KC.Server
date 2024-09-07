@@ -27,7 +27,6 @@ namespace Kashmir.Captain.Server.Application.Accounts.Queries
 				return "Email confirmed successfully.";
 
 			return "Email confirmation failed.";
-
 		}
 	}
 }

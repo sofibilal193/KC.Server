@@ -1,10 +1,11 @@
 using FluentValidation;
+using Kashmir.Captain.Server.Common.Extensions;
 using MediatR;
 using System.Text.Json.Serialization;
 
 namespace Kashmir.Captain.Server.Application.Accounts.Commands
 {
-	public record RegisterUserCommand : IRequest<string>
+	public record RegisterUserCommand : IRequest<ApiResponse<string>>
 	{
 		[JsonIgnore]
 		public int? Id { get; private set; }

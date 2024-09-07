@@ -1,10 +1,11 @@
 using FluentValidation;
 using MediatR;
 using Kashmir.Captain.Server.Application.DTO;
+using Kashmir.Captain.Server.Common.Extensions;
 
 namespace Kashmir.Captain.Server.Application.Accounts.Commands
 {
-	public record LoginUserCommand : IRequest<LoginToken>
+	public record LoginUserCommand : IRequest<ApiResponse<LoginToken>>
 	{
 		public string Email { get; set; } = "";
 		public string Password { get; set; } = "";

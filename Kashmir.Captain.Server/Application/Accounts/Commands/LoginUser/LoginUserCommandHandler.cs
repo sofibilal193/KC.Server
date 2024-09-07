@@ -11,15 +11,15 @@ using Kashmir.Captain.Server.Application.DTO;
 
 namespace Kashmir.Captain.Server.Application.Accounts.Commands
 {
-	public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginToken>
+	public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, ApiResponse<LoginToken>>
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly IEmailService _emailService;
-		// private readonly IUrlHelper _urlHelper;
 		private readonly IConfiguration _configuration;
 		private readonly SignInManager<User> _signInManager;
 
-		public LoginUserCommandHandler(UserManager<User> userManager, IEmailService emailService, SignInManager<User> signInManager, IConfiguration configuration)
+		public LoginUserCommandHandler(UserManager<User> userManager, IEmailService emailService,
+										SignInManager<User> signInManager, IConfiguration configuration)
 		{
 			_userManager = userManager;
 			_emailService = emailService;
@@ -28,29 +28,29 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 			_configuration = configuration;
 		}
 
-		public async Task<LoginToken> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+		public async Task<ApiResponse<LoginToken>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
 		{
 			// Find the user by email
 			var user = await _userManager.FindByEmailAsync(request.Email)
-				?? throw new NotFoundException(nameof(request.Email));
+				?? throw new NotFoundException(nameof(User), request.Email);
 
 
 			// Check the user's password
 			var passwordCheck = await _userManager.CheckPasswordAsync(user, request.Password);
 			if (!passwordCheck)
 			{
-				return new LoginToken();
+				return new ApiResponse<LoginToken> { IsSuccess = false, Message = "invalid Credential" };
 			}
 
 			// Sign in the user
-			var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, request.RememberMe, lockoutOnFailure: false);
+			var signInResult = await _signInManager.PasswordSignInAsync(user.Email, request.Password, request.RememberMe, lockoutOnFailure: false);
 			if (!signInResult.Succeeded)
 			{
 				if (signInResult.IsLockedOut)
 				{
-					return new LoginToken();
+					return new ApiResponse<LoginToken> { IsSuccess = false, Message = "Locked Out" };
 				}
-				return new LoginToken();
+				throw new UnauthorizedAccessException();
 			}
 			var roles = await _userManager.GetRolesAsync(user);
 
@@ -61,12 +61,13 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 						new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 						new Claim(ClaimTypes.Email, user.Email),
 					};
+
 			foreach (var role in roles)
 			{
 				authClaims.Add(new Claim(ClaimTypes.Role, role));
 			};
 
-			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
 			var token = new JwtSecurityToken(
 				issuer: _configuration["Jwt:Issuer"],
 				audience: _configuration["Jwt:Audience"],
@@ -76,11 +77,13 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 			);
 
 			// Return the token
-			return new LoginToken
+			var loginToken = new LoginToken
 			{
 				Token = new JwtSecurityTokenHandler().WriteToken(token),
 				Expiration = token.ValidTo
 			};
+
+			return new ApiResponse<LoginToken> { IsSuccess = true, Message = "Logged In Successfully", Data = loginToken };
 		}
 	}
 }
