@@ -113,14 +113,16 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <summary>
 		/// Get all Users
 		/// </summary>
-		/// <param name="userId"></param>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
+		/// <param name="startDate"></param>
+		/// <param name="endDate"></param>
+		/// <param name="sort"></param>
 		/// <returns></returns>
 		[HttpPost("GetUsers")]
-		public async Task<IActionResult> GetAllUserAsync(int userId, int page, int pageSize)
+		public async Task<IActionResult> GetAllUserAsync(int page, int pageSize, string? sort, string? search)
 		{
-			var response = await _mediator.Send(new GetUsersQuery(userId, page, pageSize));
+			var response = await _mediator.Send(new GetUsersQuery(page, pageSize, sort, search));
 			return Ok(response);
 		}
 	}
