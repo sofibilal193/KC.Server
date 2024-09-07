@@ -1,26 +1,68 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Build Kashmir.Captain.Server",
-        "type": "shell",
-        "command": "dotnet build",
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        },
-        "problemMatcher": []
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Kashmir.Captain.Server",
+      "type": "shell",
+      "command": "dotnet build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
       },
-      {
-        "label": "Run All Tests",
-        "type": "shell",
-        "command": "dotnet test",
-        "group": {
-          "kind": "test",
-          "isDefault": false
-        },
-        "problemMatcher": []
-      }
-    ]
-  }
-  
+      "problemMatcher": []
+    },
+    {
+      "label": "Run All Tests",
+      "type": "shell",
+      "command": "dotnet test",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "EF Create Migration - KcIdentityDbContext",
+      "options": {
+        "cwd": "${workspaceFolder}/Kashmir.Captain.Server"
+      },
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "ef",
+        "migrations",
+        "add",
+        "${input:EFMigrationName}",
+        "--context",
+        "KcIdentityDbContext",
+        "--output-dir",
+        "Migrations"
+      ],
+      "problemMatcher": [],
+    },
+    {
+      "label": "EF Update Database - KcIdentityDbContext",
+      "options": {
+        "cwd": "${workspaceFolder}/Kashmir.Captain.Server"
+      },
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "ef",
+        "database",
+        "update",
+        "--context",
+        "KcIdentityDbContext"
+      ],
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "EFMigrationName",
+      "type": "promptString",
+      "description": "Enter the migration name",
+      "default": "NewMigration"
+    }
+  ]
+}

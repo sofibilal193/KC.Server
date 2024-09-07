@@ -103,7 +103,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		[HttpPost("GetUser")]
+		[HttpGet("GetUser")]
 		public async Task<IActionResult> GetUserAsync(int userId)
 		{
 			var response = await _mediator.Send(new GetUserQuery(userId));
@@ -115,11 +115,10 @@ namespace Kashmir.Captain.Server.Controllers
 		/// </summary>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
-		/// <param name="startDate"></param>
-		/// <param name="endDate"></param>
 		/// <param name="sort"></param>
+		/// <param name="search"></param>
 		/// <returns></returns>
-		[HttpPost("GetUsers")]
+		[HttpGet("GetUsers")]
 		public async Task<IActionResult> GetAllUserAsync(int page, int pageSize, string? sort, string? search)
 		{
 			var response = await _mediator.Send(new GetUsersQuery(page, pageSize, sort, search));
