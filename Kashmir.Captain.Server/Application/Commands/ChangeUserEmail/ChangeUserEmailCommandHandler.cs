@@ -1,3 +1,6 @@
+using Kashmir.Captain.Server.Common.Extensions;
+using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
+using Kashmir.Captain.Server.Config;
 using Kashmir.Captain.Server.Entities;
 using Kashmir.Captain.Server.Services;
 using MediatR;
@@ -23,17 +26,27 @@ namespace Kashmir.Captain.Server.Application.Commands
 
 		public async Task<string> Handle(ChangeUserEmailCommand request, CancellationToken cancellationToken)
 		{
-			var user = await _userManager.FindByIdAsync($"{request.UserId}");
-			if (user == null)
-				return "User not found.";
+			var user = await _userManager.FindByIdAsync($"{request.UserId}") ?? throw new NotFoundException();
+
+			var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.CurrentPassword);
+			if (!isPasswordValid)
+			{
+				throw new UnauthorizedAccessException("The provided password is incorrect.");
+			}
 
 			var token = await _userManager.GenerateChangeEmailTokenAsync(user, request.NewEmail);
 			var changeEmailLink = _urlHelperService.GenerateUrl("ConfirmEmailChange", "Account", new { userId = user.Id, newEmail = request.NewEmail, token });
 
-			//await _emailService.SendEmailAsync(user.Email, "Change Email", $"Please confirm your email change by clicking here: {changeEmailLink}");
+			var mail = new EmailTemplate
+			{
+				To = request.NewEmail,
+				Subject = $"Confirm Email Change {GlobalConstants.ProjectName}",
+				Body = $"Please confirm your email change by clicking here: {changeEmailLink}"
+			};
 
-			// return "A confirmation link has been sent to your new email address.";
-			return changeEmailLink;
+			await _emailService.SendEmailAsync(mail);
+
+			return "A confirmation link has been sent to your new email address.";
 		}
 	}
 }

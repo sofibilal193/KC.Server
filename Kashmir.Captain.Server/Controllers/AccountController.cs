@@ -133,11 +133,9 @@ namespace Kashmir.Captain.Server.Controllers
 		[HttpGet("ConfirmEmailChange")]
 		public async Task<IActionResult> ConfirmEmailChange(int userId, string newEmail, string token)
 		{
-			
+
 			var response = await _mediator.Send(new ConfirmUserEmailChangeQuery(userId, newEmail, token));
 			return Ok(response);
 		}
-
-
 	}
 }

@@ -98,7 +98,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddScoped<IUrlHelper>(factory =>
 {
-	var actionContext = factory.GetService<IActionContextAccessor>().ActionContext;
+	var actionContext = factory.GetService<IActionContextAccessor>()?.ActionContext ?? new ActionContext();
 	return new UrlHelper(actionContext);
 });
 

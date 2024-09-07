@@ -1,9 +1,6 @@
 using Kashmir.Captain.Server.Config;
 using Microsoft.Extensions.Options;
-using System.Linq;
-using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
 
 namespace Kashmir.Captain.Server.Services
 {
@@ -46,5 +43,4 @@ namespace Kashmir.Captain.Server.Services
 			}
 		}
 	}
-
 }

@@ -17,7 +17,7 @@ namespace Kashmir.Captain.Server.Controllers
 		private readonly IEmailService _emailService;
 		private readonly IMediator _mediator;
 
-		public UserController( IEmailService emailService, IMediator mediator)
+		public UserController(IEmailService emailService, IMediator mediator)
 		{
 			_emailService = emailService;
 			_mediator = mediator;
@@ -86,8 +86,8 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <summary>
 		/// Send Email
 		/// </summary>
-		[HttpGet("sendMail")]
-		public async Task SendEmailAsync()
+		[HttpGet("sendMailnew")]
+		public async Task SendEmailAsyncAgain()
 		{
 			var mail = new EmailTemplate
 			{

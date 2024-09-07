@@ -1,3 +1,4 @@
+using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
 using Kashmir.Captain.Server.Config;
 using Kashmir.Captain.Server.Entities;
 using Kashmir.Captain.Server.Services;
@@ -10,34 +11,31 @@ namespace Kashmir.Captain.Server.Application.Commands
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly IEmailService _emailService;
-		// private readonly IUrlHelper _urlHelper;
+		private readonly IUrlHelperService _urlHelperService;
 
-		public RegisterUserCommandHandler(UserManager<User> userManager,IEmailService emailService
-		)
+
+		public RegisterUserCommandHandler(UserManager<User> userManager, IEmailService emailService, IUrlHelperService urlHelperService)
 		{
 			_userManager = userManager;
 			_emailService = emailService;
-			// _urlHelper = urlHelper;
+			_urlHelperService = urlHelperService;
 		}
 
 		public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
 		{
-			var user = new User{UserName = request.Email,Email = request.Email,FirstName = request.FirstName,LastName = request.LastName,PhoneNumber = request.PhoneNumber};
+			var user = new User { UserName = request.Email, Email = request.Email, FirstName = request.FirstName, LastName = request.LastName, PhoneNumber = request.PhoneNumber };
 
 			var result = await _userManager.CreateAsync(user, request.Password);
 			if (result.Succeeded)
 			{
 				var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-				// var callbackUrl = _urlHelper.Action("ConfirmEmail", "Account",
-				// 	new { token, email = user.Email },
-				// 	protocol: "https");
+				var confirmEmailLink = _urlHelperService.GenerateUrl("ConfirmEmail", "Account", new { token, userId = user.Id });
 
-					var callbackUrl = "xyz";
 				var mail = new EmailTemplate
 				{
 					To = user.Email,
-					Subject = "Confirm Email",
-					Body = $"Please confirm your email by clicking this link: {callbackUrl}"
+					Subject = $"Confirm Email {GlobalConstants.ProjectName}",
+					Body = $"Thank You For Rgistration. Please confirm your email by clicking this link: {confirmEmailLink}"
 				};
 
 				await _emailService.SendEmailAsync(mail);

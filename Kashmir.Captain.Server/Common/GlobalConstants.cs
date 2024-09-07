@@ -4,6 +4,7 @@ namespace Kashmir.Captain.Server.Common
 	{
 		public static class GlobalConstants
 		{
+			public const string ProjectName = "Kashmir Captain";
 			public const string IdSchema = "id";
 			public const string UtilsSchema = "utils";
 

@@ -1,9 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kashmir.Captain.Server.Services
 {
@@ -32,7 +28,7 @@ namespace Kashmir.Captain.Server.Services
 			var scheme = httpContext.Request.Scheme;
 			var host = httpContext.Request.Host.Value;
 
-			return urlHelper.Action(action, controller, values, scheme, host);
+			return urlHelper.Action(action, controller, values, scheme, host) ?? "Can not Create url";
 		}
 	}
 }

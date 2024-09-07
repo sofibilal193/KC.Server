@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Kashmir.Captain.Server.Services
 {
-    public interface IEmailService
-{
-    Task SendEmailAsync(EmailTemplate emailTemplate);
-}
-
+	public interface IEmailService
+	{
+		Task SendEmailAsync(EmailTemplate emailTemplate);
+	}
 }
