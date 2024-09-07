@@ -1,11 +1,11 @@
 using System.Text;
-using Kashmir.Captain.Server.Entities;
+using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Kashmir.Captain.Server.Application.Queries;
-using Kashmir.Captain.Server.Application.Commands;
+using Kashmir.Captain.Server.Application.Accounts.Commands;
+using Kashmir.Captain.Server.Application.Accounts.Queries;
 
 namespace Kashmir.Captain.Server.Controllers
 {
@@ -133,7 +133,6 @@ namespace Kashmir.Captain.Server.Controllers
 		[HttpGet("ConfirmEmailChange")]
 		public async Task<IActionResult> ConfirmEmailChange(int userId, string newEmail, string token)
 		{
-
 			var response = await _mediator.Send(new ConfirmUserEmailChangeQuery(userId, newEmail, token));
 			return Ok(response);
 		}

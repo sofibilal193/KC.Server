@@ -2,9 +2,9 @@
 using AutoMapper;
 using Kashmir.Captain.Server.Application.DTO;
 using Kashmir.Captain.Server.Common.Extensions;
-using Kashmir.Captain.Server.Entities;
+using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 
-namespace Kashmir.Captain.Server.Application
+namespace Kashmir.Captain.Server.Application.Mapping
 {
 	public class MappingProfile : Profile
 	{

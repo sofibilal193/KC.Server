@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Kashmir.Captain.Server.Application;
-using Kashmir.Captain.Server.Entities;
+using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +19,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Kashmir.Captain.Server.Application.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 

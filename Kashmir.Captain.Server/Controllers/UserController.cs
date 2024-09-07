@@ -1,7 +1,7 @@
-using Kashmir.Captain.Server.Application.Commands;
-using Kashmir.Captain.Server.Application.Queries;
+using Kashmir.Captain.Server.Application.Users.Commands;
+using Kashmir.Captain.Server.Application.Users.Queries;
 using Kashmir.Captain.Server.Config;
-using Kashmir.Captain.Server.Entities;
+using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Kashmir.Captain.Server.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
