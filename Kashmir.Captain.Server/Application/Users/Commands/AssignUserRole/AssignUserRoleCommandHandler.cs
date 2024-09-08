@@ -1,11 +1,8 @@
 using Kashmir.Captain.Server.Common.Extensions;
 using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MediatR;
+using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
 
 namespace Kashmir.Captain.Server.Application.Users.Commands
 {
@@ -22,36 +19,58 @@ namespace Kashmir.Captain.Server.Application.Users.Commands
 
 		public async Task<string> Handle(AssignUserRoleCommand request, CancellationToken cancellationToken)
 		{
-			if (!string.IsNullOrEmpty(request.UserId.ToString()) && Enum.IsDefined(typeof(RoleType), request.Role))
+			if (string.IsNullOrEmpty(request.UserId.ToString()) && !Enum.IsDefined(typeof(RoleType), request.Role))
 			{
-				var roleName = request.Role.ToString();
-
-				// Check if role exists in DB
-				if (!await _roleManager.RoleExistsAsync(roleName))
-				{
-					return "Error assigning role.";
-				}
-
-				var user = await _userManager.FindByIdAsync(request.UserId.ToString())
-						   ?? throw new NotFoundException(nameof(User), request.UserId);
-
-				var userRoles = await _userManager.GetRolesAsync(user);
-
-				if (request.AssignRole)
-				{
-					// Assign new role
-					var addResult = await _userManager.AddToRoleAsync(user, roleName);
-					return addResult.Succeeded ? "Role assigned successfully." : string.Join("; ", addResult.Errors.Select(e => e.Description)); ;
-				}
-				else
-				{
-					// Remove the role
-					var removeResult = await _userManager.RemoveFromRoleAsync(user, roleName);
-					return removeResult.Succeeded ? "Role removed successfully." : "Error removing role.";
-				}
+				throw new BadHttpRequestException("The request data is invalid.");
 			}
 
-			return "Error assigning role.";
+			var roleName = request.Role.ToString();
+
+			if (!await _roleManager.RoleExistsAsync(roleName))
+			{
+				throw new NotFoundException(nameof(Role), roleName);
+			}
+
+			var user = await _userManager.FindByIdAsync(request.UserId.ToString())
+					   ?? throw new NotFoundException(nameof(User), request.UserId);
+
+			var UserRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+			if (request.AssignRole == true) //Add Role
+			{
+				return await AddRoleToUser(user, roleName);
+			}
+			else if (request.AssignRole == false) //Remove Role
+			{
+				return await RemoveRoleOfUser(user, roleName);
+			}
+			else //Update Role
+			{
+				return UserRole is not null ? await UpdateRoleOfUser(user, roleName, UserRole) : "User not in any Role";
+			}
+		}
+
+		private async Task<string> RemoveRoleOfUser(User user, string roleName)
+		{
+			var removeResult = await _userManager.RemoveFromRoleAsync(user, roleName);
+			return removeResult.Succeeded ? "Role removed successfully." : $"{removeResult.Errors.First().Description}";
+		}
+
+		private async Task<string> AddRoleToUser(User user, string roleName)
+		{
+			var addResult = await _userManager.AddToRoleAsync(user, roleName);
+			return addResult.Succeeded ? "Role assigned successfully." : $"{addResult.Errors.First().Description}";
+		}
+
+		private async Task<string> UpdateRoleOfUser(User user, string roleName, string UserRole)
+		{
+			var removeResult = await _userManager.RemoveFromRoleAsync(user, UserRole);
+			if (removeResult.Succeeded)
+			{
+				var addResult = await _userManager.AddToRoleAsync(user, roleName);
+				return addResult.Succeeded ? "Role Updated successfully." : $"{addResult.Errors.First().Description}.";
+			}
+			return $"{removeResult.Errors.First().Description}";
 		}
 	}
 }

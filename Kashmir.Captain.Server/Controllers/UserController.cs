@@ -28,26 +28,13 @@ namespace Kashmir.Captain.Server.Controllers
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="role"></param>
+		/// <param name="AssignRole"> True: Add Role, False: Remove Role, Null: Update</param>
 		/// <returns></returns>
 		[HttpPost("Assignrole")]
 		// [Authorize(Policy = nameof(RoleType.SuperAdmin))]
-		public async Task<IActionResult> AssignRoleAsync(int userId, RoleType role)
+		public async Task<IActionResult> AssignRoleAsync(int userId, RoleType role, bool? AssignRole)
 		{
-			var response = await _mediator.Send(new AssignUserRoleCommand(userId, role, true));
-			return Ok(response);
-		}
-
-		/// <summary>
-		/// Remove role to User
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="role"></param>
-		/// <returns></returns>
-		[HttpPost("Removerole")]
-		// [Authorize(Policy = nameof(RoleType.SuperAdmin))]
-		public async Task<IActionResult> RemoveRoleAsync(int userId, RoleType role)
-		{
-			var response = await _mediator.Send(new AssignUserRoleCommand(userId, role, false));
+			var response = await _mediator.Send(new AssignUserRoleCommand(userId, role, AssignRole));
 			return Ok(response);
 		}
 
@@ -93,21 +80,6 @@ namespace Kashmir.Captain.Server.Controllers
 			command.setId(userId);
 			var response = await _mediator.Send(command);
 			return Ok(response);
-		}
-
-		/// <summary>
-		/// Send Email
-		/// </summary>
-		[HttpGet("sendMailnew")]
-		public async Task SendEmailAsyncAgain()
-		{
-			var mail = new EmailTemplate
-			{
-				To = "sofibilal193@gmail.com",
-				Subject = "Test Subject",
-				Body = "Test Body"
-			};
-			await _emailService.SendEmailAsync(mail);
 		}
 
 		/// <summary>
