@@ -23,7 +23,12 @@ namespace Kashmir.Captain.Server.Data
 
 			builder.Entity<User>(entity => entity.ToTable(name: "Users", schema: _schema));
 			builder.Entity<Role>(entity => entity.ToTable(name: "Roles", schema: _schema));
-			builder.Entity<IdentityUserRole<int>>(entity => entity.ToTable("UserRoles", schema: _schema));
+			builder.Entity<IdentityUserRole<int>>(entity =>
+   					{
+						   entity.ToTable("UserRoles", schema: _schema);
+						   entity.HasIndex(e => e.UserId).IsUnique();
+						   entity.HasKey(e => new { e.UserId, e.RoleId });
+   					});
 			builder.Entity<IdentityUserClaim<int>>(entity => entity.ToTable("UserClaims", schema: _schema));
 			builder.Entity<IdentityUserLogin<int>>(entity => entity.ToTable("UserLogins", schema: _schema));
 			builder.Entity<IdentityRoleClaim<int>>(entity => entity.ToTable("RoleClaims", schema: _schema));

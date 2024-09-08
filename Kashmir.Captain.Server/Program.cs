@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using Kashmir.Captain.Server.Application;
 using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -20,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Kashmir.Captain.Server.Application.Mapping;
+using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -197,8 +197,7 @@ await app.RunAsync();
 
 async Task InitializeRoles(RoleManager<Role> roleManager)
 {
-	string[] roleNames = { nameof(RoleType.SuperAdmin), nameof(RoleType.Admin), nameof(RoleType.User) };
-	foreach (var roleName in roleNames)
+	foreach (var roleName in GlobalConstants.roleNames)
 	{
 		if (!await roleManager.RoleExistsAsync(roleName))
 		{

@@ -67,6 +67,8 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 				authClaims.Add(new Claim(ClaimTypes.Role, role));
 			};
 
+			// await _userManager.AddClaimsAsync(user, authClaims);
+
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
 			var token = new JwtSecurityToken(
 				issuer: _configuration["Jwt:Issuer"],

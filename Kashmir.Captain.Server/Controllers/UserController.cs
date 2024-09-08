@@ -29,13 +29,25 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="userId"></param>
 		/// <param name="role"></param>
 		/// <returns></returns>
-		[HttpPost("role")]
-		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		[HttpPost("Assignrole")]
+		// [Authorize(Policy = nameof(RoleType.SuperAdmin))]
 		public async Task<IActionResult> AssignRoleAsync(int userId, RoleType role)
 		{
-			var command = new AssignUserRoleCommand();
-			command.setId(userId, role);
-			var response = await _mediator.Send(command);
+			var response = await _mediator.Send(new AssignUserRoleCommand(userId, role, true));
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Remove role to User
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="role"></param>
+		/// <returns></returns>
+		[HttpPost("Removerole")]
+		// [Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		public async Task<IActionResult> RemoveRoleAsync(int userId, RoleType role)
+		{
+			var response = await _mediator.Send(new AssignUserRoleCommand(userId, role, false));
 			return Ok(response);
 		}
 
@@ -104,6 +116,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		[HttpGet("GetUser")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
 		public async Task<IActionResult> GetUserAsync(int userId)
 		{
 			var response = await _mediator.Send(new GetUserQuery(userId));
@@ -119,6 +132,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="search"></param>
 		/// <returns></returns>
 		[HttpGet("GetUsers")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
 		public async Task<IActionResult> GetAllUserAsync(int page, int pageSize, string? sort, string? search)
 		{
 			var response = await _mediator.Send(new GetUsersQuery(page, pageSize, sort, search));

@@ -1,3 +1,4 @@
+using Kashmir.Captain.Server.Common.Extensions;
 using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -21,32 +22,36 @@ namespace Kashmir.Captain.Server.Application.Users.Commands
 
 		public async Task<string> Handle(AssignUserRoleCommand request, CancellationToken cancellationToken)
 		{
-
-			if (string.IsNullOrEmpty($"{request.UserId}") || !Enum.IsDefined(typeof(RoleType), request.Role))
+			if (!string.IsNullOrEmpty(request.UserId.ToString()) && Enum.IsDefined(typeof(RoleType), request.Role))
 			{
-				return "User ID and Role Name are required.";
-			}
+				var roleName = request.Role.ToString();
 
-			var roleName = request.Role.ToString();
-			var user = await _userManager.FindByIdAsync($"{request.UserId}");
-			if (user == null)
-			{
-				return "User not found.";
-			}
+				// Check if role exists in DB
+				if (!await _roleManager.RoleExistsAsync(roleName))
+				{
+					return "Error assigning role.";
+				}
 
-			if (!await _roleManager.RoleExistsAsync(roleName))
-			{
-				return "Role does not exist.";
-			}
+				var user = await _userManager.FindByIdAsync(request.UserId.ToString())
+						   ?? throw new NotFoundException(nameof(User), request.UserId);
 
-			var result = await _userManager.AddToRoleAsync(user, roleName);
-			if (result.Succeeded)
-			{
-				return "Role assigned successfully.";
+				var userRoles = await _userManager.GetRolesAsync(user);
+
+				if (request.AssignRole)
+				{
+					// Assign new role
+					var addResult = await _userManager.AddToRoleAsync(user, roleName);
+					return addResult.Succeeded ? "Role assigned successfully." : string.Join("; ", addResult.Errors.Select(e => e.Description)); ;
+				}
+				else
+				{
+					// Remove the role
+					var removeResult = await _userManager.RemoveFromRoleAsync(user, roleName);
+					return removeResult.Succeeded ? "Role removed successfully." : "Error removing role.";
+				}
 			}
 
 			return "Error assigning role.";
-
 		}
 	}
 }
