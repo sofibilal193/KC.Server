@@ -4,5 +4,5 @@ using System.Text.Json.Serialization;
 
 namespace Kashmir.Captain.Server.Application.Users.Commands
 {
-	public readonly record struct UpsertRoleCommand(int UserId, RoleType Role, bool AssignRole) : IRequest<string>;
+	public readonly record struct DeleteUserRoleCommand(int UserId) : IRequest<string>;
 }

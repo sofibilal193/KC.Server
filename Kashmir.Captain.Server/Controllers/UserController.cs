@@ -1,11 +1,9 @@
 using Kashmir.Captain.Server.Application.Users.Commands;
 using Kashmir.Captain.Server.Application.Users.Queries;
-using Kashmir.Captain.Server.Config;
 using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Kashmir.Captain.Server.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kashmir.Captain.Server.Controllers
@@ -24,17 +22,30 @@ namespace Kashmir.Captain.Server.Controllers
 		}
 
 		/// <summary>
-		/// Assign role to User
+		/// Upsert role to User
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="role"></param>
-		/// <param name="AssignRole"> True: Add Role, False: Remove Role, Null: Update</param>
+		/// <param name="AssignRole"> True: Add-Role, False: Delete-Role</param>
 		/// <returns></returns>
-		[HttpPost("Assignrole")]
-		// [Authorize(Policy = nameof(RoleType.SuperAdmin))]
-		public async Task<IActionResult> AssignRoleAsync(int userId, RoleType role, bool? AssignRole)
+		[HttpPost("Upsertrole")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		public async Task<IActionResult> UpsertRoleAsync(int userId, RoleType role, bool AssignRole)
 		{
-			var response = await _mediator.Send(new AssignUserRoleCommand(userId, role, AssignRole));
+			var response = await _mediator.Send(new UpsertRoleCommand(userId, role, AssignRole));
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Remove role to User
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		[HttpDelete("Deleterole")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		public async Task<IActionResult> DeleteRoleAsync(int userId)
+		{
+			var response = await _mediator.Send(new DeleteUserRoleCommand(userId));
 			return Ok(response);
 		}
 
@@ -60,7 +71,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="command"></param>
 		/// <returns></returns>
 		[HttpPost("ChangeEmail")]
-		// [Authorize(Policy = nameof(RoleType.User))]
+		[Authorize(Policy = nameof(RoleType.User))]
 		public async Task<IActionResult> ChangeEmailAsync(int userId, ChangeUserEmailCommand command)
 		{
 			command.setId(userId);
@@ -73,7 +84,8 @@ namespace Kashmir.Captain.Server.Controllers
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		[HttpPost("DeleteUser")]
+		[HttpDelete("DeleteUser")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
 		public async Task<IActionResult> DeleteUserAsync(int userId)
 		{
 			var command = new DeleteUserCommand();
@@ -88,7 +100,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		[HttpGet("GetUser")]
-		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		[Authorize(Policy = nameof(RoleType.User))]
 		public async Task<IActionResult> GetUserAsync(int userId)
 		{
 			var response = await _mediator.Send(new GetUserQuery(userId));

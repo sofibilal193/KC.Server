@@ -1,11 +1,9 @@
-using System.Text;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Kashmir.Captain.Server.Application.Accounts.Commands;
 using Kashmir.Captain.Server.Application.Accounts.Queries;
+using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 
 namespace Kashmir.Captain.Server.Controllers
 {
@@ -25,20 +23,20 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="command"></param>
 		/// <returns></returns>
 		[HttpPost("Register")]
-		public async Task<IActionResult> Register(RegisterUserCommand command)
+		public async Task<IActionResult> RegisterUserAsync(RegisterUserCommand command)
 		{
 			var response = await _mediator.Send(command);
 			return Ok(response);
 		}
 
 		/// <summary>
-		/// Confirm EMail (Get Token from Email and Authenticate through Link)
+		/// Confirm EMail Call from Email
 		/// </summary>
 		/// <param name="token"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		[HttpGet("ConfirmEmail")]
-		public async Task<IActionResult> ConfirmEmail(string token, int userId)
+		public async Task<IActionResult> ConfirmEmailAsync(string token, int userId)
 		{
 			var response = await _mediator.Send(new ConfirmUserEmailQuery(token, userId));
 			return Ok(response);
@@ -51,7 +49,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="command"></param>
 		/// <returns></returns>
 		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
+		public async Task<IActionResult> LoginAsync([FromBody] LoginUserCommand command)
 		{
 			var response = await _mediator.Send(command);
 			return Ok(response);
@@ -64,8 +62,8 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="command"></param>
 		/// <returns></returns>
 		[HttpPost("ChangePassword")]
-		[Authorize]
-		public async Task<IActionResult> ChangePassword(int userId, ChangeUserPasswordCommand command)
+		[Authorize(Policy = nameof(RoleType.User))]
+		public async Task<IActionResult> ChangePasswordAsync(int userId, ChangeUserPasswordCommand command)
 		{
 			command.setId(userId);
 			var response = await _mediator.Send(command);
@@ -78,7 +76,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpPost("ForgotPassword")]
-		public async Task<IActionResult> ForgotPassword([FromBody] ForgotUserPasswordCommand command)
+		public async Task<IActionResult> ForgotPasswordAsync([FromBody] ForgotUserPasswordCommand command)
 		{
 			var response = await _mediator.Send(command);
 			return Ok(response);
@@ -90,8 +88,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="command"></param>
 		/// <returns></returns> 
 		[HttpPost("ResetPassword")]
-		[Authorize]
-		public async Task<IActionResult> ResetPassword(ResetUserPasswordCommand command)
+		public async Task<IActionResult> ResetPasswordAsync(ResetUserPasswordCommand command)
 		{
 			var response = await _mediator.Send(command);
 			return Ok(response);
@@ -102,12 +99,10 @@ namespace Kashmir.Captain.Server.Controllers
 		/// </summary>
 		/// <returns></returns> 
 		[HttpPost("logout")]
-		[Authorize]
 		public IActionResult LogoutAsync()
 		{
 			return Ok("Logged out successfully.");
 		}
-
 
 		/// <summary>
 		/// Resend Email Confirmation
@@ -115,7 +110,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		[HttpPost("ResendConfirmationEmail")]
-		public async Task<IActionResult> ResendConfirmationEmail([FromBody] int userId)
+		public async Task<IActionResult> ResendConfirmationEmailAsync([FromBody] int userId)
 		{
 			var command = new ResendUserConfirmationEmailCommand();
 			command.setId(userId);
@@ -124,14 +119,14 @@ namespace Kashmir.Captain.Server.Controllers
 		}
 
 		/// <summary>
-		/// Confirm Email Change
+		/// Confirm Email Change : Called from Email
 		/// </summary>
 		/// <param name="token"></param>
 		/// <param name="userId"></param>
 		/// <param name="newEmail"></param>
 		/// <returns></returns>
 		[HttpGet("ConfirmEmailChange")]
-		public async Task<IActionResult> ConfirmEmailChange(int userId, string newEmail, string token)
+		public async Task<IActionResult> ConfirmEmailChangeAsync(int userId, string newEmail, string token)
 		{
 			var response = await _mediator.Send(new ConfirmUserEmailChangeQuery(userId, newEmail, token));
 			return Ok(response);

@@ -25,24 +25,32 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 		{
 			var user = new User { UserName = request.Email, Email = request.Email, FirstName = request.FirstName, LastName = request.LastName, PhoneNumber = request.PhoneNumber };
 
-			var result = await _userManager.CreateAsync(user, request.Password);
-			if (result.Succeeded)
+			var createdResult = await _userManager.CreateAsync(user, request.Password);
+			if (createdResult.Succeeded)
 			{
-				var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-				var confirmEmailLink = _urlHelperService.GenerateUrl("ConfirmEmail", "Account", new { token, userId = user.Id });
-
-				var mail = new EmailTemplate()
+				var addRoleResult = await _userManager.AddToRoleAsync(user, nameof(RoleType.User));
+				if (addRoleResult.Succeeded)
 				{
-					To = user.Email,
-					Subject = $"Confirm Email {GlobalConstants.ProjectName}",
-					Body = GlobalConstants.GetEmailRegistrationBody(user.FirstName, user.LastName, confirmEmailLink)
-				};
+					var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+					var confirmEmailLink = _urlHelperService.GenerateUrl("ConfirmEmail", "Account", new { token, userId = user.Id });
 
-				await _emailService.SendEmailAsync(mail);
+					await _emailService.SendEmailAsync(
+						new EmailTemplate()
+						{
+							To = user.Email,
+							Subject = $"Confirm Email {GlobalConstants.ProjectName}",
+							Body = GlobalConstants.GetEmailRegistrationBody(user.FirstName, user.LastName, confirmEmailLink)
+						});
 
-				return new ApiResponse<string> { IsSuccess = true, Message = "User registered successfully. Please check your email to confirm your account." };
+					return new ApiResponse<string> { IsSuccess = true, Message = "User registered successfully. Please check your email to confirm your account." };
+				}
+				else
+				{
+					await _userManager.DeleteAsync(user);
+					return new ApiResponse<string> { IsSuccess = false, Message = $"{addRoleResult.Errors.First()}" };
+				}
 			}
-			return new ApiResponse<string> { IsSuccess = false, Message = "Error registering user." };
+			return new ApiResponse<string> { IsSuccess = false, Message = $"{createdResult.Errors.First()}" };
 		}
 	}
 }

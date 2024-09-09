@@ -34,7 +34,6 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 			var user = await _userManager.FindByEmailAsync(request.Email)
 				?? throw new NotFoundException(nameof(User), request.Email);
 
-
 			// Check the user's password
 			var passwordCheck = await _userManager.CheckPasswordAsync(user, request.Password);
 			if (!passwordCheck)
@@ -43,7 +42,7 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 			}
 
 			// Sign in the user
-			var signInResult = await _signInManager.PasswordSignInAsync(user.Email, request.Password, request.RememberMe, lockoutOnFailure: false);
+			var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, request.RememberMe, lockoutOnFailure: false);
 			if (!signInResult.Succeeded)
 			{
 				if (signInResult.IsLockedOut)
@@ -60,14 +59,10 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 						new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 						new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 						new Claim(ClaimTypes.Email, user.Email),
+						new Claim(ClaimTypes.Role,  (await _userManager.GetRolesAsync(user)).First())
 					};
 
-			foreach (var role in roles)
-			{
-				authClaims.Add(new Claim(ClaimTypes.Role, role));
-			};
-
-			// await _userManager.AddClaimsAsync(user, authClaims);
+			await _userManager.AddClaimsAsync(user, authClaims);
 
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
 			var token = new JwtSecurityToken(
