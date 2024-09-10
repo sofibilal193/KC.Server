@@ -34,13 +34,14 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 					var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 					var confirmEmailLink = _urlHelperService.GenerateUrl("ConfirmEmail", "Account", new { token, userId = user.Id });
 
-					await _emailService.SendEmailAsync(
-						new EmailTemplate()
-						{
-							To = user.Email,
-							Subject = $"Confirm Email {GlobalConstants.ProjectName}",
-							Body = GlobalConstants.GetEmailRegistrationBody(user.FirstName, user.LastName, confirmEmailLink)
-						});
+					var mail = new EmailTemplate()
+					{
+						To = user.Email,
+						Subject = $"Confirm Email {GlobalConstants.ProjectName}",
+					};
+					mail.GetEmailRegistrationBody(user.FirstName, user.LastName, confirmEmailLink);
+
+					await _emailService.SendEmailAsync(mail);
 
 					return new ApiResponse<string> { IsSuccess = true, Message = "User registered successfully. Please check your email to confirm your account." };
 				}

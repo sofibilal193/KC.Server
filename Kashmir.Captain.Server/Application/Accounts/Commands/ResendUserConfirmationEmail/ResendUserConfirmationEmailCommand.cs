@@ -6,9 +6,9 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 	public class ResendUserConfirmationEmailCommand : IRequest<string>
 	{
 		[JsonIgnore]
-		public int? UserId { get; private set; }
+		public int UserId { get; private set; }
 
-		public void setId(int? userId)
+		public void setId(int userId)
 		{
 			UserId = userId;
 		}

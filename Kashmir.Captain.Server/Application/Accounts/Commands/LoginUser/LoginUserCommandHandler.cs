@@ -14,16 +14,13 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 	public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, ApiResponse<LoginToken>>
 	{
 		private readonly UserManager<User> _userManager;
-		private readonly IEmailService _emailService;
 		private readonly IConfiguration _configuration;
 		private readonly SignInManager<User> _signInManager;
 
-		public LoginUserCommandHandler(UserManager<User> userManager, IEmailService emailService,
+		public LoginUserCommandHandler(UserManager<User> userManager,
 										SignInManager<User> signInManager, IConfiguration configuration)
 		{
 			_userManager = userManager;
-			_emailService = emailService;
-			// _urlHelper = urlHelper;
 			_signInManager = signInManager;
 			_configuration = configuration;
 		}
@@ -34,6 +31,11 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 			var user = await _userManager.FindByEmailAsync(request.Email)
 				?? throw new NotFoundException(nameof(User), request.Email);
 
+			if (string.IsNullOrEmpty(user.Email))
+			{
+				throw new InvalidOperationException("User's email is not set.");
+			}
+
 			// Check the user's password
 			var passwordCheck = await _userManager.CheckPasswordAsync(user, request.Password);
 			if (!passwordCheck)
@@ -42,7 +44,7 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 			}
 
 			// Sign in the user
-			var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, request.RememberMe, lockoutOnFailure: false);
+			var signInResult = await _signInManager.PasswordSignInAsync(user.Email, request.Password, request.RememberMe, lockoutOnFailure: false);
 			if (!signInResult.Succeeded)
 			{
 				if (signInResult.IsLockedOut)
