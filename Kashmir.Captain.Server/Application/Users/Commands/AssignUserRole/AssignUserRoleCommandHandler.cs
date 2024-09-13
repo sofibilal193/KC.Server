@@ -3,6 +3,7 @@ using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Microsoft.AspNetCore.Identity;
 using MediatR;
 using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
+using Kashmir.Captain.Server.Infrastructure.Persistance;
 
 namespace Kashmir.Captain.Server.Application.Users.Commands
 {
@@ -10,11 +11,13 @@ namespace Kashmir.Captain.Server.Application.Users.Commands
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly RoleManager<Role> _roleManager;
+		private readonly KcDbContext _context;
 
-		public UpsertRoleCommandHandler(UserManager<User> userManager, RoleManager<Role> roleManager)
+		public UpsertRoleCommandHandler(UserManager<User> userManager, RoleManager<Role> roleManager, KcDbContext context)
 		{
 			_userManager = userManager;
 			_roleManager = roleManager;
+			_context = context;
 		}
 
 		public async Task<string> Handle(UpsertRoleCommand request, CancellationToken cancellationToken)
@@ -23,7 +26,6 @@ namespace Kashmir.Captain.Server.Application.Users.Commands
 			{
 				throw new BadHttpRequestException("The request data is invalid.");
 			}
-
 			var roleName = request.Role.ToString();
 
 			if (!await _roleManager.RoleExistsAsync(roleName))

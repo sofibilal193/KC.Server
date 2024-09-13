@@ -4,30 +4,30 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Kashmir.Captain.Server.Infrastructure.Persistance.Configuration
 {
-	public class WorkerConfiguration : IEntityTypeConfiguration<Worker>
+	public class ToolConfiguration : IEntityTypeConfiguration<Tool>
 	{
 		private readonly string _schema;
 
-		public WorkerConfiguration(string schema)
+		public ToolConfiguration(string schema)
 		{
 			_schema = schema;
 		}
 
-		public void Configure(EntityTypeBuilder<Worker> builder)
+		public void Configure(EntityTypeBuilder<Tool> builder)
 		{
-			builder.ToTable("Workers", _schema);
+			builder.ToTable("Tools", _schema);
 
 			builder.HasKey(x => x.Id);
 
-			builder.Property(e => e.FirstName)
+			builder.Property(e => e.Name)
 				.HasMaxLength(20)
 				.IsRequired();
 
-			builder.Property(e => e.LastName)
+			builder.Property(e => e.Brand)
 				.HasMaxLength(10)
 				.IsRequired();
 
-			builder.Property(e => e.PhoneNumber)
+			builder.Property(e => e.Description)
 				.HasMaxLength(10)
 				.IsRequired();
 		}

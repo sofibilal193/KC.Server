@@ -36,7 +36,7 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 
 					var mail = new EmailTemplate()
 					{
-						To = user.Email,
+						To = user.Email!,
 						Subject = $"Confirm Email {GlobalConstants.ProjectName}",
 					};
 					mail.GetEmailRegistrationBody(user.FirstName, user.LastName, confirmEmailLink);

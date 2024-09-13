@@ -12,7 +12,27 @@ namespace Kashmir.Captain.Server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
+                name: "utils");
+
+            migrationBuilder.EnsureSchema(
                 name: "id");
+
+            migrationBuilder.CreateTable(
+                name: "Machines",
+                schema: "utils",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Version = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Machines", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Roles",
@@ -31,6 +51,22 @@ namespace Kashmir.Captain.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tools",
+                schema: "utils",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tools", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 schema: "id",
                 columns: table => new
@@ -40,6 +76,10 @@ namespace Kashmir.Captain.Server.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -57,6 +97,22 @@ namespace Kashmir.Captain.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Workers",
+                schema: "utils",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Workers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,7 +193,7 @@ namespace Kashmir.Captain.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => x.UserId);
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
                         name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
@@ -209,10 +265,10 @@ namespace Kashmir.Captain.Server.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId_RoleId",
+                name: "IX_UserRoles_UserId",
                 schema: "id",
                 table: "UserRoles",
-                columns: new[] { "UserId", "RoleId" },
+                column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -234,8 +290,16 @@ namespace Kashmir.Captain.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Machines",
+                schema: "utils");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims",
                 schema: "id");
+
+            migrationBuilder.DropTable(
+                name: "Tools",
+                schema: "utils");
 
             migrationBuilder.DropTable(
                 name: "UserClaims",
@@ -252,6 +316,10 @@ namespace Kashmir.Captain.Server.Migrations
             migrationBuilder.DropTable(
                 name: "UserTokens",
                 schema: "id");
+
+            migrationBuilder.DropTable(
+                name: "Workers",
+                schema: "utils");
 
             migrationBuilder.DropTable(
                 name: "Roles",

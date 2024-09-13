@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
-using Kashmir.Captain.Server.Data;
 using Kashmir.Captain.Server.Services;
 using System.Net.Mail;
 using Kashmir.Captain.Server.Config;
@@ -20,11 +19,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Kashmir.Captain.Server.Application.Mapping;
 using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
+using Kashmir.Captain.Server.Infrastructure.Persistance;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure database context
-builder.Services.AddDbContext<KcIdentityDbContext>(options =>
+builder.Services.AddDbContext<KcDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("KcDbContext")
 	?? throw new InvalidOperationException("Connection string 'KcDbContext' not found.")));
 
@@ -38,7 +38,7 @@ builder.Services.AddIdentity<User, Role>(options =>
 	options.Password.RequireUppercase = true;
 	options.Password.RequireLowercase = true;
 })
-.AddEntityFrameworkStores<KcIdentityDbContext>()
+.AddEntityFrameworkStores<KcDbContext>()
 .AddDefaultTokenProviders();
 
 // Register MediatR

@@ -22,7 +22,7 @@
       "problemMatcher": []
     },
     {
-      "label": "EF Create Migration - KcIdentityDbContext",
+      "label": "EF Create Migration - KcDbContext",
       "options": {
         "cwd": "${workspaceFolder}/Kashmir.Captain.Server"
       },
@@ -34,14 +34,14 @@
         "add",
         "${input:EFMigrationName}",
         "--context",
-        "KcIdentityDbContext",
+        "KcDbContext",
         "--output-dir",
         "Migrations"
       ],
       "problemMatcher": [],
     },
     {
-      "label": "EF Update Database - KcIdentityDbContext",
+      "label": "EF Update Database - KcDbContext",
       "options": {
         "cwd": "${workspaceFolder}/Kashmir.Captain.Server"
       },
@@ -52,7 +52,7 @@
         "database",
         "update",
         "--context",
-        "KcIdentityDbContext"
+        "KcDbContext"
       ],
       "problemMatcher": []
     }

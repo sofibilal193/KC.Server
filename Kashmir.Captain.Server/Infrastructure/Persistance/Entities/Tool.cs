@@ -7,6 +7,11 @@ namespace Kashmir.Captain.Server.Infrastructure.Persistance.Entities
 		public string? Name { get; set; }
 		public string? Brand { get; set; }
 		public string? Description { get; set; }
-		public Tool() { }
+		public Tool(string name, string? brand, string? description)
+		{
+			Name = name;
+			Brand = brand;
+			Description = description;
+		}
 	}
 }

@@ -4,9 +4,9 @@ namespace Kashmir.Captain.Server.Infrastructure.Persistance.Entities
 {
 	public class Machine : SqlEntity
 	{
-		public string? MachineName { get; set; }
-		public string? MachineBrand { get; set; }
-		public string? MachineDescription { get; set; }
+		public string? Name { get; set; }
+		public string? Brand { get; set; }
+		public string? Description { get; set; }
 		public string? Version { get; set; }
 
 		public Machine() { }

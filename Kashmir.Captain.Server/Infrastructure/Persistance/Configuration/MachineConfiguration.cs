@@ -1,15 +1,21 @@
-using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
 using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Kashmir.Captain.Server.Data.Configuration
+namespace Kashmir.Captain.Server.Infrastructure.Persistance.Configuration
 {
-	public class ToolEquipmentConfiguration : IEntityTypeConfiguration<Tool>
+	public class MachineConfiguration : IEntityTypeConfiguration<Machine>
 	{
-		public void Configure(EntityTypeBuilder<Tool> builder)
+		private readonly string _schema;
+
+		public MachineConfiguration(string schema)
 		{
-			builder.ToTable("ToolEquipments", GlobalConstants.UtilsSchema);
+			_schema = schema;
+		}
+
+		public void Configure(EntityTypeBuilder<Machine> builder)
+		{
+			builder.ToTable("Machines", _schema);
 
 			builder.HasKey(x => x.Id);
 
@@ -22,6 +28,9 @@ namespace Kashmir.Captain.Server.Data.Configuration
 				.IsRequired();
 
 			builder.Property(e => e.Description)
+				.HasMaxLength(10)
+				.IsRequired();
+			builder.Property(e => e.Version)
 				.HasMaxLength(10)
 				.IsRequired();
 		}
