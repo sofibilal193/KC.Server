@@ -23,7 +23,7 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 
 		public async Task<ApiResponse<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
 		{
-			var user = new User { UserName = request.Email, Email = request.Email, FirstName = request.FirstName, LastName = request.LastName, PhoneNumber = request.PhoneNumber };
+			var user = new User(request.Email, request.FirstName, request.LastName, request.PhoneNumber);
 
 			var createdResult = await _userManager.CreateAsync(user, request.Password);
 			if (createdResult.Succeeded)

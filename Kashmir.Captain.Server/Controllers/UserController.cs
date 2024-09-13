@@ -99,7 +99,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		[HttpGet("GetUser")]
+		[HttpGet("User")]
 		[Authorize(Policy = nameof(RoleType.User))]
 		public async Task<IActionResult> GetUserAsync(int userId)
 		{
@@ -115,7 +115,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="sort"></param>
 		/// <param name="search"></param>
 		/// <returns></returns>
-		[HttpGet("GetUsers")]
+		[HttpGet("Users")]
 		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
 		public async Task<IActionResult> GetAllUserAsync(int page, int pageSize, string? sort, string? search)
 		{

@@ -17,14 +17,14 @@ namespace Kashmir.Captain.Server.Application.Users.Queries
 		public async Task<UserDto> Handle(GetUserQuery request, CancellationToken cancellationToken)
 		{
 			var user = await _userManager.FindByIdAsync($"{request.UserId}") ?? throw new NotFoundException();
-			var roles = await _userManager.GetRolesAsync(user);
+			var roles = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
 			return new UserDto
 			{
 				Id = user.Id,
 				Email = user.Email,
 				PhoneNumber = user.PhoneNumber,
-				Role = roles.ToList()
+				Role = roles
 			};
 		}
 	}
