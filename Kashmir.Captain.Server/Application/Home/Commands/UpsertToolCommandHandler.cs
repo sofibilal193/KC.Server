@@ -4,7 +4,7 @@ using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Kashmir.Captain.Server.Application.Workers.Commands
+namespace Kashmir.Captain.Server.Application.Home.Commands
 {
 	public class UpsertToolCommandHandler : IRequestHandler<UpsertToolCommand, int>
 	{
@@ -25,7 +25,7 @@ namespace Kashmir.Captain.Server.Application.Workers.Commands
 			else
 			{
 				tool = new Tool(request.Name, request.Brand, request.Description);
-				await _contex.AddAsync(tool, cancellationToken);
+				_contex.Add(tool);
 			}
 
 			await _contex.SaveChangesAsync(cancellationToken);

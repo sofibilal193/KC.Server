@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Kashmir.Captain.Server.Application.Workers.Commands;
+using Kashmir.Captain.Server.Application.Home.Commands;
+using Kashmir.Captain.Server.Application.Home.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +7,10 @@ namespace Kashmir.Captain.Server.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
-	public class HomeController : ControllerBase
+	public class ToolsController : ControllerBase
 	{
 		private readonly IMediator _mediator;
-		public HomeController(IMediator mediator)
+		public ToolsController(IMediator mediator)
 		{
 			_mediator = mediator;
 		}
@@ -23,7 +20,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// </summary>
 		/// <param name="command"></param>
 		/// <returns></returns>
-		[HttpPost("tool")]
+		[HttpPost("add")]
 		public async Task<IActionResult> AddToolAsync(UpsertToolCommand command)
 		{
 			var response = await _mediator.Send(command);
@@ -36,11 +33,18 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="id"></param>
 		/// <param name="command"></param>
 		/// <returns></returns>
-		[HttpPut("tool")]
+		[HttpPut("update")]
 		public async Task<IActionResult> UpdatetToolAsync(int id, UpsertToolCommand command)
 		{
 			command.SetId(id);
 			var response = await _mediator.Send(command);
+			return Ok(response);
+		}
+
+		[HttpGet("tools")]
+		public async Task<IActionResult> GetToolsAsync(int id = 5)
+		{
+			var response = await _mediator.Send(new GetToolsCommand(id));
 			return Ok(response);
 		}
 	}

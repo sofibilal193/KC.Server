@@ -19,13 +19,16 @@ namespace Kashmir.Captain.Server.Application.Users.Queries
 			var user = await _userManager.FindByIdAsync($"{request.UserId}") ?? throw new NotFoundException();
 			var roles = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
-			return new UserDto
+			var UserDto = new UserDto
 			{
 				Id = user.Id,
 				Email = user.Email,
 				PhoneNumber = user.PhoneNumber,
-				Role = roles
+				Role = roles,
+				ProfilePhoto = Convert.ToBase64String(user.ProfilePhoto)
 			};
+
+			return UserDto;
 		}
 	}
 }

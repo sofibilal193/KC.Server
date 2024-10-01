@@ -13,6 +13,7 @@ namespace Kashmir.Captain.Server.Application.Mapping
 			CreateMap<User, UserDto>();
 			//  .ForMember(dest => dest.DestinationProperty, opt => opt.MapFrom(src => src.SourceProperty));
 			CreateMap<PagedList<User>, PagedList<UserDto>>();
+			CreateMap<Tool, ToolDto>();
 		}
 	}
 

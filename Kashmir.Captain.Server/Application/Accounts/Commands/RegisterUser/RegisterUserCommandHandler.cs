@@ -23,7 +23,8 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 
 		public async Task<ApiResponse<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
 		{
-			var user = new User(request.Email, request.FirstName, request.LastName, request.PhoneNumber);
+			byte[] imageBytes = Convert.FromBase64String(request.ProfilePhoto);
+			var user = new User(request.Email, request.FirstName, request.LastName, request.PhoneNumber, imageBytes);
 
 			var createdResult = await _userManager.CreateAsync(user, request.Password);
 			if (createdResult.Succeeded)
@@ -45,7 +46,7 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 
 					return new ApiResponse<string> { IsSuccess = true, Message = "User registered successfully. Please check your email to confirm your account." };
 				}
-				else
+				else // RollBack
 				{
 					await _userManager.DeleteAsync(user);
 					return new ApiResponse<string> { IsSuccess = false, Message = $"{addRoleResult.Errors.First()}" };

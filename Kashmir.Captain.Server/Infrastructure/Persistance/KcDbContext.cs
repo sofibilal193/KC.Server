@@ -26,7 +26,11 @@ namespace Kashmir.Captain.Server.Infrastructure.Persistance
 		{
 			base.OnModelCreating(builder);
 
-			builder.Entity<User>(entity => entity.ToTable(name: "Users", schema: _IdSchema));
+			builder.Entity<User>(entity =>
+			{
+				entity.ToTable("Users", schema: _IdSchema)
+				.Property(u => u.ProfilePhoto).HasColumnType("varbinary(MAX)");
+			});
 			builder.Entity<Role>(entity => entity.ToTable(name: "Roles", schema: _IdSchema));
 			builder.Entity<IdentityUserRole<int>>(entity =>
    					{

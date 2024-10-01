@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kashmir.Captain.Server.Migrations
 {
     [DbContext(typeof(KcDbContext))]
-    [Migration("20240913183708_NewMigration")]
+    [Migration("20240915065935_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -20,7 +20,6 @@ namespace Kashmir.Captain.Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("id")
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -39,10 +38,34 @@ namespace Kashmir.Captain.Server.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<DateTime?>("CreateDateTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreateSource")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CreateUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreateUserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime?>("ModifyDateTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifySource")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ModifyUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyUserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -102,10 +125,34 @@ namespace Kashmir.Captain.Server.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<DateTime?>("CreateDateTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreateSource")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CreateUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreateUserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime?>("ModifyDateTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifySource")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ModifyUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyUserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -132,12 +179,6 @@ namespace Kashmir.Captain.Server.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -157,12 +198,6 @@ namespace Kashmir.Captain.Server.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -179,6 +214,10 @@ namespace Kashmir.Captain.Server.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<byte[]>("ProfilePhoto")
+                        .IsRequired()
+                        .HasColumnType("varbinary(MAX)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -211,6 +250,18 @@ namespace Kashmir.Captain.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreateDateTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreateSource")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CreateUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreateUserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -220,6 +271,18 @@ namespace Kashmir.Captain.Server.Migrations
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime?>("ModifyDateTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifySource")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ModifyUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyUserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()

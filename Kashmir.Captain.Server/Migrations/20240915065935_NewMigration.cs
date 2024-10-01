@@ -27,7 +27,15 @@ namespace Kashmir.Captain.Server.Migrations
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Version = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                    Version = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    CreateDateTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateUserId = table.Column<int>(type: "int", nullable: true),
+                    CreateUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateSource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifyDateTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifyUserId = table.Column<int>(type: "int", nullable: true),
+                    ModifyUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifySource = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,7 +67,15 @@ namespace Kashmir.Captain.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    CreateDateTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateUserId = table.Column<int>(type: "int", nullable: true),
+                    CreateUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateSource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifyDateTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifyUserId = table.Column<int>(type: "int", nullable: true),
+                    ModifyUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifySource = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,10 +92,7 @@ namespace Kashmir.Captain.Server.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfilePhoto = table.Column<byte[]>(type: "varbinary(MAX)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -108,7 +121,15 @@ namespace Kashmir.Captain.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    CreateDateTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateUserId = table.Column<int>(type: "int", nullable: true),
+                    CreateUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateSource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifyDateTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifyUserId = table.Column<int>(type: "int", nullable: true),
+                    ModifyUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifySource = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

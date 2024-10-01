@@ -28,7 +28,7 @@ namespace Kashmir.Captain.Server.Infrastructure.Persistance.Configuration
 				.IsRequired();
 
 			builder.Property(e => e.Description)
-				.HasMaxLength(10)
+				.HasMaxLength(1000)
 				.IsRequired();
 		}
 	}

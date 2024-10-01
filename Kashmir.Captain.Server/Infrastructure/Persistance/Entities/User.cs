@@ -11,31 +11,26 @@ namespace Kashmir.Captain.Server.Infrastructure.Persistance.Entities
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
 		public override string? PhoneNumber { get; set; }
-		public DateTime? CreatedDate { get; set; }
-		public string? CreatedBy { get; set; }
-		public DateTime? ModifiedDate { get; set; }
-		public string? ModifiedBy { get; set; }
+		public byte[] ProfilePhoto { get; set; } = [];
 
 		public User() { }
 
-		public User(string email, string? firstName, string? lastName, string? phoneNumber)
+		public User(string email, string? firstName, string? lastName, string? phoneNumber, byte[] profilePhoto)
 		{
 			UserName = email;
 			Email = email;
 			FirstName = firstName;
 			LastName = lastName;
 			PhoneNumber = phoneNumber;
-			CreatedDate = DateTime.UtcNow;
-			CreatedBy = "";
+			ProfilePhoto = profilePhoto;
 		}
 
-		public void Update(string? firstName, string? lastName, string? phoneNumber)
+		public void Update(string? firstName, string? lastName, string? phoneNumber, byte[] profilePhoto)
 		{
 			FirstName = firstName;
 			LastName = lastName;
 			PhoneNumber = phoneNumber;
-			ModifiedDate = DateTime.UtcNow;
-			ModifiedBy = "";
+			ProfilePhoto = profilePhoto;
 		}
 	}
 }

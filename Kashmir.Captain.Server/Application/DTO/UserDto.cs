@@ -8,5 +8,6 @@ namespace Kashmir.Captain.Server.Application.DTO
 		public string? Email { get; set; }
 		public string? PhoneNumber { get; set; }
 		public string? Role { get; set; }
+		public string? ProfilePhoto { get; init; }
 	}
 }

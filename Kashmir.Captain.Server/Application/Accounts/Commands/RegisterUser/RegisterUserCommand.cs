@@ -15,6 +15,7 @@ namespace Kashmir.Captain.Server.Application.Accounts.Commands
 		public string Email { get; init; } = "";
 		public string Password { get; init; } = "";
 		public string ConfirmPassword { get; init; } = "";
+		public string ProfilePhoto { get; init; } = "";
 
 		public void SetId(int? id)
 		{
