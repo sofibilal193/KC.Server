@@ -120,7 +120,7 @@ builder.Services.AddFluentValidationAutoValidation()
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 // Register SmtpClient as a Singleton service
-builder.Services.AddSingleton<SmtpClient>(serviceProvider =>
+builder.Services.AddSingleton(serviceProvider =>
 {
 	var emailSettings = serviceProvider.GetRequiredService<IOptions<EmailSettings>>().Value;
 
