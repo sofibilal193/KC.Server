@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Kashmir.Captain.Server.Application.Accounts.Commands;
-using Kashmir.Captain.Server.Application.Accounts.Queries;
 using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using Kashmir.Captain.Server.KC.Identity;
+using Kashmir.Captain.Server.Application.Users.Queries;
+using Kashmir.Captain.Server.KC.Users;
 
 namespace Kashmir.Captain.Server.Controllers
 {
@@ -17,6 +18,7 @@ namespace Kashmir.Captain.Server.Controllers
 			_mediator = mediator;
 		}
 
+		#region RegisterUserAsync
 		/// <summary>
 		/// Register User
 		/// </summary>
@@ -28,6 +30,7 @@ namespace Kashmir.Captain.Server.Controllers
 			var response = await _mediator.Send(command);
 			return Ok(response);
 		}
+		#endregion
 
 		/// <summary>
 		/// Confirm EMail Call from Email
@@ -129,6 +132,108 @@ namespace Kashmir.Captain.Server.Controllers
 		public async Task<IActionResult> ConfirmEmailChangeAsync(int userId, string newEmail, string token)
 		{
 			var response = await _mediator.Send(new ConfirmUserEmailChangeQuery(userId, newEmail, token));
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Upsert role to User
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="role"></param>
+		/// <param name="AssignRole"> True: Add-Role, False: Delete-Role</param>
+		/// <returns></returns>
+		[HttpPost("Upsertrole")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		public async Task<IActionResult> UpsertRoleAsync(int userId, RoleType role, bool AssignRole)
+		{
+			var response = await _mediator.Send(new UpsertRoleCommand(userId, role, AssignRole));
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Remove role to User
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		[HttpDelete("Deleterole")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		public async Task<IActionResult> DeleteRoleAsync(int userId)
+		{
+			var response = await _mediator.Send(new DeleteUserRoleCommand(userId));
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Update User Profile
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="command"></param>
+		/// <returns></returns>
+		[HttpPost("UpdateProfile")]
+		[Authorize(Policy = nameof(RoleType.User))]
+		public async Task<IActionResult> UpdateProfileAsync(int userId, [FromBody] UpdateUserProfileCommand command)
+		{
+			command.setId(userId);
+			var response = await _mediator.Send(command);
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Change Email Address
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="command"></param>
+		/// <returns></returns>
+		[HttpPost("ChangeEmail")]
+		[Authorize(Policy = nameof(RoleType.User))]
+		public async Task<IActionResult> ChangeEmailAsync(int userId, ChangeUserEmailCommand command)
+		{
+			command.setId(userId);
+			var response = await _mediator.Send(command);
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Delete a User
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		[HttpDelete("DeleteUser")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		public async Task<IActionResult> DeleteUserAsync(int userId)
+		{
+			var command = new DeleteUserCommand();
+			command.setId(userId);
+			var response = await _mediator.Send(command);
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Get User
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		[HttpGet("User")]
+		[Authorize(Policy = nameof(RoleType.User))]
+		public async Task<IActionResult> GetUserAsync(int userId)
+		{
+			var response = await _mediator.Send(new GetUserQuery(userId));
+			return Ok(response);
+		}
+
+		/// <summary>
+		/// Get all Users
+		/// </summary>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <param name="sort"></param>
+		/// <param name="search"></param>
+		/// <returns></returns>
+		[HttpGet("Users")]
+		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		public async Task<IActionResult> GetAllUserAsync(int page, int pageSize, string? sort, string? search)
+		{
+			var response = await _mediator.Send(new GetUsersQuery(page, pageSize, sort, search));
 			return Ok(response);
 		}
 	}

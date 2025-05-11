@@ -17,9 +17,9 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Kashmir.Captain.Server.Application.Mapping;
 using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
 using Kashmir.Captain.Server.Infrastructure.Persistance;
+using Kashmir.Captain.Server.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
