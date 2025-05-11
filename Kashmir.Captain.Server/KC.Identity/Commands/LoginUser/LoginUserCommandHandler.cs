@@ -40,7 +40,7 @@ namespace Kashmir.Captain.Server.KC.Identity
 			var passwordCheck = await _userManager.CheckPasswordAsync(user, request.Password);
 			if (!passwordCheck)
 			{
-				return new ApiResponse<LoginToken> { IsSuccess = false, Message = "invalid Credential" };
+				return new ApiResponse<LoginToken>(false, "invalid Credential");
 			}
 
 			// Sign in the user
@@ -49,7 +49,7 @@ namespace Kashmir.Captain.Server.KC.Identity
 			{
 				if (signInResult.IsLockedOut)
 				{
-					return new ApiResponse<LoginToken> { IsSuccess = false, Message = "Locked Out" };
+					return new ApiResponse<LoginToken>(false, "Locked Out");
 				}
 				throw new UnauthorizedAccessException();
 			}
@@ -82,7 +82,7 @@ namespace Kashmir.Captain.Server.KC.Identity
 				Expiration = token.ValidTo
 			};
 
-			return new ApiResponse<LoginToken> { IsSuccess = true, Message = "Logged In Successfully", Data = loginToken };
+			return new ApiResponse<LoginToken>(true, "Logged In Successfully", loginToken);
 		}
 	}
 }

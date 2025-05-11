@@ -44,15 +44,16 @@ namespace Kashmir.Captain.Server.KC.Identity
 
 					await _emailService.SendEmailAsync(mail);
 
-					return new ApiResponse<string> { IsSuccess = true, Message = "User registered successfully. Please check your email to confirm your account." };
+					return new ApiResponse<string>(true, "User registered successfully. Please check your email to confirm your account.");
 				}
 				else // RollBack
 				{
 					await _userManager.DeleteAsync(user);
-					return new ApiResponse<string> { IsSuccess = false, Message = $"{addRoleResult.Errors.First()}" };
+					return new ApiResponse<string>(false, addRoleResult.Errors.First().ToString());
+
 				}
 			}
-			return new ApiResponse<string> { IsSuccess = false, Message = $"{createdResult.Errors.First()}" };
+			return new ApiResponse<string>(false, createdResult.Errors.First().ToString());
 		}
 	}
 }

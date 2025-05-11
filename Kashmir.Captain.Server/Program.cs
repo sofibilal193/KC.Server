@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
 using Kashmir.Captain.Server.Infrastructure.Persistance;
 using Kashmir.Captain.Server.Common;
+using Kashmir.Captain.Server.Application.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,10 +84,10 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>
 {
-	options.AddPolicy("AllowReactApp",
+	options.AddPolicy("AllowAll",
 		builder =>
 		{
-			builder.WithOrigins("*") // Replace with your React app's URL
+			builder.AllowAnyOrigin() // Replace with your React app's URL
 				   .AllowAnyHeader()
 				   .AllowAnyMethod();
 		});
@@ -133,6 +134,8 @@ builder.Services.AddSingleton(serviceProvider =>
 });
 // Add Services
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 // Register IHttpContextAccessor and CurrentUserService
 builder.Services.AddHttpContextAccessor();
@@ -141,6 +144,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
 	c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
 	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 	{
 		Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
@@ -162,7 +166,8 @@ builder.Services.AddSwaggerGen(c =>
 			},
 			Array.Empty<string>()
 		}
-	});
+	}
+);
 	var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 	var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 	c.IncludeXmlComments(xmlPath);
@@ -181,7 +186,7 @@ using (var scope = app.Services.CreateScope())
 // Middleware pipeline
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCors("AllowReactApp");
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
@@ -190,8 +195,11 @@ app.MapFallbackToFile("/index.html");
 // if (app.Environment.IsDevelopment())
 // {
 app.UseSwagger();
-app.UseSwaggerUI();
-// }
+app.UseSwaggerUI(c =>
+{
+	c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+	c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+});// }
 
 await app.RunAsync();
 

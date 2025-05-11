@@ -38,6 +38,7 @@
     <Folder Include="Common\Model\" />
     <Folder Include="R\" />
     <Folder Include="Application\" />
+    <Folder Include="Services\" />
     <Folder Include="Tests\" />
   </ItemGroup>
 </Project>

@@ -230,7 +230,7 @@ namespace Kashmir.Captain.Server.Controllers
 		/// <param name="search"></param>
 		/// <returns></returns>
 		[HttpGet("Users")]
-		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
+		//[Authorize(Policy = nameof(RoleType.SuperAdmin))]
 		public async Task<IActionResult> GetAllUserAsync(int page, int pageSize, string? sort, string? search)
 		{
 			var response = await _mediator.Send(new GetUsersQuery(page, pageSize, sort, search));
