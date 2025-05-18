@@ -42,9 +42,9 @@ namespace Kashmir.Captain.Server.Controllers
 		}
 
 		[HttpGet("tools")]
-		public async Task<IActionResult> GetToolsAsync(int id = 5)
+		public async Task<IActionResult> GetToolsAsync()
 		{
-			var response = await _mediator.Send(new GetToolsCommand(id));
+			var response = await _mediator.Send(new GetToolsQuery());
 			return Ok(response);
 		}
 	}

@@ -205,7 +205,7 @@ await app.RunAsync();
 
 async Task InitializeRoles(RoleManager<Role> roleManager)
 {
-	foreach (var roleName in GlobalConstants.roleNames)
+	foreach (var roleName in GlobalConstants.roles)
 	{
 		if (!await roleManager.RoleExistsAsync(roleName))
 		{
