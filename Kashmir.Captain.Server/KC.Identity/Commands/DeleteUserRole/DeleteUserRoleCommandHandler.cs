@@ -3,7 +3,7 @@ using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Microsoft.AspNetCore.Identity;
 using MediatR;
 
-namespace Kashmir.Captain.Server.KC.Users
+namespace Kashmir.Captain.Server.KC.Identity
 {
 	public class DeleteUserRoleCommandHandler : IRequestHandler<DeleteUserRoleCommand, string>
 	{

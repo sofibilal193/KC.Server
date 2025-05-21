@@ -2,7 +2,7 @@ using FluentValidation;
 using MediatR;
 using System.Text.Json.Serialization;
 
-namespace Kashmir.Captain.Server.KC.Users
+namespace Kashmir.Captain.Server.KC.Identity
 {
 	public record ChangeUserEmailCommand : IRequest<string>
 	{

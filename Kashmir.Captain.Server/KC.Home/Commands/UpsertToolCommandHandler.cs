@@ -4,7 +4,7 @@ using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Kashmir.Captain.Server.Application.Home.Commands
+namespace Kashmir.Captain.Server.KC.Home
 {
 	public class UpsertToolCommandHandler : IRequestHandler<UpsertToolCommand, int>
 	{

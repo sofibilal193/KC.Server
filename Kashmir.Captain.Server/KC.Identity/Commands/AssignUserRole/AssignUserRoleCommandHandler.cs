@@ -5,7 +5,7 @@ using MediatR;
 using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
 using Kashmir.Captain.Server.Infrastructure.Persistance;
 
-namespace Kashmir.Captain.Server.KC.Users
+namespace Kashmir.Captain.Server.KC.Identity
 {
 	public class UpsertRoleCommandHandler : IRequestHandler<UpsertRoleCommand, string>
 	{

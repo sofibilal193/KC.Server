@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Kashmir.Captain.Server.Application.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kashmir.Captain.Server.KC.Identity
 {
@@ -33,7 +34,7 @@ namespace Kashmir.Captain.Server.KC.Identity
 
 			if (string.IsNullOrEmpty(user.Email))
 			{
-				throw new InvalidOperationException("User's email is not set.");
+				throw new ValidationException("User's email is not set.");
 			}
 
 			// Check the user's password
@@ -79,7 +80,6 @@ namespace Kashmir.Captain.Server.KC.Identity
 			var loginToken = new LoginToken
 			{
 				Token = new JwtSecurityTokenHandler().WriteToken(token),
-				Expiration = token.ValidTo
 			};
 
 			return new ApiResponse<LoginToken>(true, "Logged In Successfully", loginToken);

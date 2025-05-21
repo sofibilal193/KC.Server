@@ -2,7 +2,7 @@ using FluentValidation;
 using MediatR;
 using System.Text.Json.Serialization;
 
-namespace Kashmir.Captain.Server.Application.Home.Commands
+namespace Kashmir.Captain.Server.KC.Home
 {
 	public record UpsertToolCommand : IRequest<int>
 	{

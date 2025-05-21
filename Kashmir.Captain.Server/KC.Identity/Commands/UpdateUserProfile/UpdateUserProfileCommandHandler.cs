@@ -3,7 +3,7 @@ using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Kashmir.Captain.Server.KC.Users
+namespace Kashmir.Captain.Server.KC.Identity
 {
 	public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfileCommand, string>
 	{

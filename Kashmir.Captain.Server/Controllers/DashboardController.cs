@@ -1,5 +1,5 @@
-using Kashmir.Captain.Server.Application.Home.Commands;
 using Kashmir.Captain.Server.Application.Home.Queries;
+using Kashmir.Captain.Server.KC.Home;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

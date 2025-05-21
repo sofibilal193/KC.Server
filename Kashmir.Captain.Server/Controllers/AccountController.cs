@@ -4,7 +4,6 @@ using MediatR;
 using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
 using Kashmir.Captain.Server.KC.Identity;
 using Kashmir.Captain.Server.Application.Users.Queries;
-using Kashmir.Captain.Server.KC.Users;
 
 namespace Kashmir.Captain.Server.Controllers
 {
