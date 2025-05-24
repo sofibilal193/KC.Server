@@ -1,4 +1,4 @@
-namespace Kashmir.Captain.Server.Common.Extensions
+namespace KC.Common.Extensions
 {
 
 	/// <summary>

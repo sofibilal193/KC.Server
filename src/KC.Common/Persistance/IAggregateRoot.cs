@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kashmir.Captain.Server.Common.Entities
+namespace KC.Common.Entities
 {
 	public interface IAggregateRoot { }
 }

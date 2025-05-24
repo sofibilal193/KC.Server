@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Kashmir.Captain.Server.Migrations
+namespace KC.Migrations
 {
     /// <inheritdoc />
     public partial class NewMigrations : Migration

@@ -1,8 +1,8 @@
-﻿using Kashmir.Captain.Server.Common.Persistance;
+﻿using KC.Common.Persistance;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Kashmir.Captain.Server.Common.Entities
+namespace KC.Common.Entities
 {
 	public abstract class SqlEntity : BaseEntity, IAggregateRoot
 	{

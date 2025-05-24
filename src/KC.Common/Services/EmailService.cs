@@ -1,8 +1,9 @@
-using Kashmir.Captain.Server.Config;
+using KC.Common.Config;
+using KC.Config;
 using Microsoft.Extensions.Options;
 using System.Net.Mail;
 
-namespace Kashmir.Captain.Server.Services
+namespace KC.Services
 {
 	public class EmailService : IEmailService
 	{

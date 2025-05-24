@@ -1,4 +1,4 @@
-using Kashmir.Captain.Server.Common.Persistance;
+using KC.Common.Persistance;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Kashmir.Captain.Server.Common.Extensions
+namespace KC.Common.Extensions
 {
 	public interface IDbRepository<TEntity> where TEntity : DbContext
 	{

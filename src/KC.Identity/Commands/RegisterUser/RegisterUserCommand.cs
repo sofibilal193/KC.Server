@@ -1,9 +1,9 @@
 using FluentValidation;
-using Kashmir.Captain.Server.Common.Extensions;
+using KC.Common.Extensions;
 using MediatR;
 using System.Text.Json.Serialization;
 
-namespace Kashmir.Captain.Server.KC.Identity
+namespace KC.KC.Identity
 {
 	public record RegisterUserCommand : IRequest<ApiResponse<string>>
 	{

@@ -1,11 +1,11 @@
-using Kashmir.Captain.Server.Common.Extensions;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using KC.Common.Extensions;
+using KC.Infrastructure.Persistance.Entities;
 using Microsoft.AspNetCore.Identity;
 using MediatR;
-using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
-using Kashmir.Captain.Server.Infrastructure.Persistance;
+using KC.Common.KC.Common;
+using KC.Infrastructure.Persistance;
 
-namespace Kashmir.Captain.Server.KC.Identity
+namespace KC.KC.Identity
 {
 	public class UpsertRoleCommandHandler : IRequestHandler<UpsertRoleCommand, string>
 	{

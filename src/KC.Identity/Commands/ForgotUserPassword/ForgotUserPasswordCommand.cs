@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Kashmir.Captain.Server.KC.Identity
+namespace KC.KC.Identity
 {
 	public class ForgotUserPasswordCommand : IRequest<string>
 	{

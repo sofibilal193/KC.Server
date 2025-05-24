@@ -1,10 +1,10 @@
-using Kashmir.Captain.Server.Application.DTO;
-using Kashmir.Captain.Server.Common.Extensions;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using KC.Application.DTO;
+using KC.Common.Extensions;
+using KC.Infrastructure.Persistance.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Kashmir.Captain.Server.Application.Users.Queries
+namespace KC.Application.Users.Queries
 {
 	public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDto>
 	{

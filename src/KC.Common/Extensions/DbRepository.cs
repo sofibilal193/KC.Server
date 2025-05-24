@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
-using Kashmir.Captain.Server.Common.Persistance;
+using KC.Common.Persistance;
 using Microsoft.EntityFrameworkCore;
 
-namespace Kashmir.Captain.Server.Common.Extensions
+namespace KC.Common.Extensions
 {
 	/// <summary>
 	/// Base repository for managing entity models configured with DbContext.

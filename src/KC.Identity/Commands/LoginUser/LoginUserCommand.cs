@@ -1,9 +1,9 @@
 using FluentValidation;
 using MediatR;
-using Kashmir.Captain.Server.Application.DTO;
-using Kashmir.Captain.Server.Common.Extensions;
+using KC.Application.DTO;
+using KC.Common.Extensions;
 
-namespace Kashmir.Captain.Server.KC.Identity
+namespace KC.KC.Identity
 {
 	public record LoginUserCommand : IRequest<ApiResponse<LoginToken>>
 	{

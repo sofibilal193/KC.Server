@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kashmir.Captain.Server.Common
+namespace KC.Common
 {
     public static class ErrorMessages
     {

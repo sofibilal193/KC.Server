@@ -1,16 +1,16 @@
-using Kashmir.Captain.Server.Common.Extensions;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
-using Kashmir.Captain.Server.Services;
+using KC.Common.Extensions;
+using KC.Infrastructure.Persistance.Entities;
+using KC.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Kashmir.Captain.Server.Application.DTO;
+using KC.Application.DTO;
 using System.ComponentModel.DataAnnotations;
 
-namespace Kashmir.Captain.Server.KC.Identity
+namespace KC.KC.Identity
 {
 	public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, ApiResponse<LoginToken>>
 	{

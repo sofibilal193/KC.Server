@@ -1,8 +1,8 @@
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using KC.Infrastructure.Persistance.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Kashmir.Captain.Server.Infrastructure.Persistance.Configuration
+namespace KC.Infrastructure.Persistance.Configuration
 {
 	public class WorkerConfiguration : IEntityTypeConfiguration<Worker>
 	{

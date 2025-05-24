@@ -1,4 +1,4 @@
-namespace Kashmir.Captain.Server.Common.Persistance
+namespace KC.Common.Persistance
 {
 	public abstract class BaseEntity : BaseEntityLogProps
 	{

@@ -1,13 +1,14 @@
-using Kashmir.Captain.Server.Common.Extensions;
-using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
-using Kashmir.Captain.Server.Config;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
-using Kashmir.Captain.Server.KC.Identity;
-using Kashmir.Captain.Server.Services;
+using KC.Common.Config;
+using KC.Common.Extensions;
+using KC.Common.KC.Common;
+using KC.Config;
+using KC.Infrastructure.Persistance.Entities;
+using KC.KC.Identity;
+using KC.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Kashmir.Captain.Server.KC.Home
+namespace KC.KC.Home
 {
 	public class ChangeUserEmailCommandHandler : IRequestHandler<ChangeUserEmailCommand, string>
 	{

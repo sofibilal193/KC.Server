@@ -1,8 +1,8 @@
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using KC.Infrastructure.Persistance.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Kashmir.Captain.Server.KC.Identity
+namespace KC.KC.Identity
 {
 	public class ConfirmUserEmailQueryHandler : IRequestHandler<ConfirmUserEmailQuery, string>
 	{

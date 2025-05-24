@@ -1,4 +1,4 @@
-namespace Kashmir.Captain.Server.Application.DTO
+namespace KC.Application.DTO
 {
 	public class CurrentUserDetailDto
 	{

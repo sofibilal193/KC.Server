@@ -1,10 +1,10 @@
-// using Kashmir.Captain.Server.Data;
+// using KC.Data;
 // using System;
 // using System.Collections.Generic;
 // using System.Linq;
 // using System.Threading.Tasks;
 
-// namespace Kashmir.Captain.Server.Application.Users.Queries.Repositories
+// namespace KC.Application.Users.Queries.Repositories
 // {
 // 	public class UserUnitOfWork : IUserUnitOfWork
 // 	{

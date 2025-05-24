@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using KC.Infrastructure.Persistance.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -9,24 +9,27 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
-using Kashmir.Captain.Server.Services;
+using KC.Services;
 using System.Net.Mail;
-using Kashmir.Captain.Server.Config;
+using KC.Config;
 using Microsoft.Extensions.Options;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Kashmir.Captain.Server.Common.Kashmir.Captain.Server.Common;
-using Kashmir.Captain.Server.Infrastructure.Persistance;
-using Kashmir.Captain.Server.Common;
-using Kashmir.Captain.Server.Application.Users;
+using KC.Common.KC.Common;
+using KC.Infrastructure.Persistance;
+using KC.Common;
+using KC.Application.Users;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+var env = builder.Environment;
+
 
 // Configure database context
 builder.Services.AddDbContext<KcDbContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("KcDbContext")
+	options.UseSqlServer(configuration.GetConnectionString("KcDbContext")
 	?? throw new InvalidOperationException("Connection string 'KcDbContext' not found.")));
 
 // Configure Identity
@@ -68,9 +71,9 @@ builder.Services.AddAuthentication(options =>
 		ValidateAudience = true,
 		ValidateLifetime = true,
 		ValidateIssuerSigningKey = true,
-		ValidIssuer = builder.Configuration["Jwt:Issuer"],
-		ValidAudience = builder.Configuration["Jwt:Audience"],
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+		ValidIssuer = configuration["Jwt:Issuer"],
+		ValidAudience = configuration["Jwt:Audience"],
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
 	};
 })
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
@@ -118,7 +121,7 @@ builder.Services.AddFluentValidationAutoValidation()
 				.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 // Configure EmailSettings
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
 // Register SmtpClient as a Singleton service
 builder.Services.AddSingleton(serviceProvider =>

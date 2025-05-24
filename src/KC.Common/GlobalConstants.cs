@@ -1,8 +1,8 @@
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using KC.Infrastructure.Persistance.Entities;
 
-namespace Kashmir.Captain.Server.Common
+namespace KC.Common
 {
-	namespace Kashmir.Captain.Server.Common
+	namespace KC.Common
 	{
 		public static class GlobalConstants
 		{

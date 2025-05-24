@@ -1,10 +1,10 @@
-using Kashmir.Captain.Server.Application.DTO;
-using Kashmir.Captain.Server.Infrastructure.Persistance;
+using KC.Application.DTO;
+using KC.Infrastructure.Persistance;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
-namespace Kashmir.Captain.Server.Application.Home.Queries
+namespace KC.Application.Home.Queries
 {
 	public class GetToolsCommandHandler : IRequestHandler<GetToolsQuery, List<ToolDto>>
 	{

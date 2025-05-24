@@ -1,10 +1,11 @@
-using Kashmir.Captain.Server.Config;
+using KC.Common.Config;
+using KC.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kashmir.Captain.Server.Services
+namespace KC.Services
 {
 	public interface IEmailService
 	{

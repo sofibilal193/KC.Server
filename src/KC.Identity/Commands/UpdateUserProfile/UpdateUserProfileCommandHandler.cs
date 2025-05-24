@@ -1,9 +1,9 @@
-using Kashmir.Captain.Server.Common.Extensions;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using KC.Common.Extensions;
+using KC.Infrastructure.Persistance.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Kashmir.Captain.Server.KC.Identity
+namespace KC.KC.Identity
 {
 	public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfileCommand, string>
 	{

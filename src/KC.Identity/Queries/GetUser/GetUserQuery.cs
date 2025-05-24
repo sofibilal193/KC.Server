@@ -1,7 +1,7 @@
-using Kashmir.Captain.Server.Application.DTO;
+using KC.Application.DTO;
 using MediatR;
 
-namespace Kashmir.Captain.Server.Application.Users.Queries
+namespace KC.Application.Users.Queries
 {
 	public readonly record struct GetUserQuery(int UserId) : IRequest<UserDto>;
 }

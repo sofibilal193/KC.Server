@@ -1,13 +1,13 @@
-using Kashmir.Captain.Server.Application.Home.Queries;
-using Kashmir.Captain.Server.KC.Home;
+using KC.Application.Common.Controllers;
+using KC.Application.Home.Queries;
+using KC.KC.Home;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kashmir.Captain.Server.Controllers
+namespace KC.Controllers
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class DashboardController : ControllerBase
+	[Route("api/Dashboards")]
+	public class DashboardController : BaseController
 	{
 		private readonly IMediator _mediator;
 		public DashboardController(IMediator mediator)

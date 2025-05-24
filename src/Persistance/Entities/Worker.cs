@@ -1,6 +1,6 @@
-using Kashmir.Captain.Server.Common.Entities;
+using KC.Common.Entities;
 
-namespace Kashmir.Captain.Server.Infrastructure.Persistance.Entities
+namespace KC.Infrastructure.Persistance.Entities
 {
 	public class Worker : SqlEntity
 	{

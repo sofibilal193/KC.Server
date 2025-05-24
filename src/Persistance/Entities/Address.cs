@@ -1,4 +1,4 @@
-namespace Kashmir.Captain.Server.Infrastructure.Persistance.Entities
+namespace KC.Infrastructure.Persistance.Entities
 {
 	public class Address
 	{

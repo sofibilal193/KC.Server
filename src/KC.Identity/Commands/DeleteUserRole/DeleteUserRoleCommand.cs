@@ -1,8 +1,8 @@
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
+using KC.Infrastructure.Persistance.Entities;
 using MediatR;
 using System.Text.Json.Serialization;
 
-namespace Kashmir.Captain.Server.KC.Identity
+namespace KC.KC.Identity
 {
 	public readonly record struct DeleteUserRoleCommand(int UserId) : IRequest<string>;
 }

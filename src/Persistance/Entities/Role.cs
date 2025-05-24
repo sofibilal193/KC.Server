@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Kashmir.Captain.Server.Infrastructure.Persistance.Entities
+namespace KC.Infrastructure.Persistance.Entities
 {
 	public class Role : IdentityRole<int>
 	{

@@ -1,8 +1,8 @@
-using Kashmir.Captain.Server.Application.DTO;
-using Kashmir.Captain.Server.Common.Extensions;
+using KC.Application.DTO;
+using KC.Common.Extensions;
 using MediatR;
 
-namespace Kashmir.Captain.Server.Application.Users.Queries
+namespace KC.Application.Users.Queries
 {
 	/// <summary>
 	/// Get All Users

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
-namespace Kashmir.Captain.Server.Services
+namespace KC.Services
 {
 	public class UrlHelperService : IUrlHelperService
 	{

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Configuration;
+using KC.Infrastructure.Persistance.Entities;
+using KC.Infrastructure.Persistance.Configuration;
 
-namespace Kashmir.Captain.Server.Infrastructure.Persistance
+namespace KC.Infrastructure.Persistance
 {
 	public class KcDbContext : IdentityDbContext<User, Role, int>
 	{

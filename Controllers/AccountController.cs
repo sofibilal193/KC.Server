@@ -1,22 +1,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Kashmir.Captain.Server.Infrastructure.Persistance.Entities;
-using Kashmir.Captain.Server.KC.Identity;
-using Kashmir.Captain.Server.Application.Users.Queries;
+using KC.Infrastructure.Persistance.Entities;
+using KC.KC.Identity;
+using KC.Application.Users.Queries;
+using KC.Application.Common.Controllers;
 
-namespace Kashmir.Captain.Server.Controllers
+namespace KC.Controllers
 {
-	[ApiController]
 	[Route("api/Account")]
-	public class AccountController : ControllerBase
+	public class AccountController : BaseController
 	{
-		private readonly IMediator _mediator;
-		public AccountController(IMediator mediator)
-		{
-			_mediator = mediator;
-		}
-
 		#region RegisterUserAsync
 		/// <summary>
 		/// Register User
@@ -26,7 +20,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[HttpPost("Register")]
 		public async Task<IActionResult> RegisterUserAsync(RegisterUserCommand command)
 		{
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 		#endregion
@@ -40,7 +34,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[HttpGet("ConfirmEmail")]
 		public async Task<IActionResult> ConfirmEmailAsync(string token, int userId)
 		{
-			var response = await _mediator.Send(new ConfirmUserEmailQuery(token, userId));
+			var response = await Mediator.Send(new ConfirmUserEmailQuery(token, userId));
 			return Ok(response);
 		}
 
@@ -53,7 +47,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[HttpPost("login")]
 		public async Task<IActionResult> LoginAsync([FromBody] LoginUserCommand command)
 		{
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 
@@ -68,7 +62,7 @@ namespace Kashmir.Captain.Server.Controllers
 		public async Task<IActionResult> ChangePasswordAsync(int userId, ChangeUserPasswordCommand command)
 		{
 			command.setId(userId);
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 
@@ -80,7 +74,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[HttpPost("ForgotPassword")]
 		public async Task<IActionResult> ForgotPasswordAsync([FromBody] ForgotUserPasswordCommand command)
 		{
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 
@@ -92,7 +86,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[HttpPost("ResetPassword")]
 		public async Task<IActionResult> ResetPasswordAsync(ResetUserPasswordCommand command)
 		{
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 
@@ -116,7 +110,7 @@ namespace Kashmir.Captain.Server.Controllers
 		{
 			var command = new ResendUserConfirmationEmailCommand();
 			command.setId(userId);
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 
@@ -130,7 +124,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[HttpGet("ConfirmEmailChange")]
 		public async Task<IActionResult> ConfirmEmailChangeAsync(int userId, string newEmail, string token)
 		{
-			var response = await _mediator.Send(new ConfirmUserEmailChangeQuery(userId, newEmail, token));
+			var response = await Mediator.Send(new ConfirmUserEmailChangeQuery(userId, newEmail, token));
 			return Ok(response);
 		}
 
@@ -145,7 +139,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
 		public async Task<IActionResult> UpsertRoleAsync(int userId, RoleType role, bool AssignRole)
 		{
-			var response = await _mediator.Send(new UpsertRoleCommand(userId, role, AssignRole));
+			var response = await Mediator.Send(new UpsertRoleCommand(userId, role, AssignRole));
 			return Ok(response);
 		}
 
@@ -158,7 +152,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[Authorize(Policy = nameof(RoleType.SuperAdmin))]
 		public async Task<IActionResult> DeleteRoleAsync(int userId)
 		{
-			var response = await _mediator.Send(new DeleteUserRoleCommand(userId));
+			var response = await Mediator.Send(new DeleteUserRoleCommand(userId));
 			return Ok(response);
 		}
 
@@ -173,7 +167,7 @@ namespace Kashmir.Captain.Server.Controllers
 		public async Task<IActionResult> UpdateProfileAsync(int userId, [FromBody] UpdateUserProfileCommand command)
 		{
 			command.setId(userId);
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 
@@ -188,7 +182,7 @@ namespace Kashmir.Captain.Server.Controllers
 		public async Task<IActionResult> ChangeEmailAsync(int userId, ChangeUserEmailCommand command)
 		{
 			command.setId(userId);
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 
@@ -203,7 +197,7 @@ namespace Kashmir.Captain.Server.Controllers
 		{
 			var command = new DeleteUserCommand();
 			command.setId(userId);
-			var response = await _mediator.Send(command);
+			var response = await Mediator.Send(command);
 			return Ok(response);
 		}
 
@@ -216,7 +210,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[Authorize(Policy = nameof(RoleType.User))]
 		public async Task<IActionResult> GetUserAsync(int userId)
 		{
-			var response = await _mediator.Send(new GetUserQuery(userId));
+			var response = await Mediator.Send(new GetUserQuery(userId));
 			return Ok(response);
 		}
 
@@ -232,7 +226,7 @@ namespace Kashmir.Captain.Server.Controllers
 		[Authorize]
 		public async Task<IActionResult> GetAllUserAsync(int page, int pageSize, string? sort, string? search)
 		{
-			var response = await _mediator.Send(new GetUsersQuery(page, pageSize, sort, search));
+			var response = await Mediator.Send(new GetUsersQuery(page, pageSize, sort, search));
 			return Ok(response);
 		}
 	}
