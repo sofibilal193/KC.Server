@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace KC.Application.Common.Controllers
 {
     [ApiController]
-    [Authorize(Policy = nameof(RoleType.User))]
+    [Authorize]
     [EnableCors]
     [ApiConventionType(typeof(ApiConventions))]
     public abstract class BaseController : ControllerBase
